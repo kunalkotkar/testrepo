@@ -1,0 +1,294 @@
+#include<stdio.h> 
+ 
+void align(int a[],int n) 
+{ 
+ 	 for(int i=0;i<n;i++) 
+    { 
+    	if(a[i]==1 && a[i+1]== -1) 
+    	{ 
+       		a[i]= -1; 
+            a[i+1]= 1; 
+        } 
+        
+    } 
+    for(int i=0;i<n;i++) 
+   { 
+       if(a[i]==1 && a[i+1]== -1) 
+       align(a,n); 
+   } 
+} 
+ 
+int main() 
+{ 
+  int n,count=0,countneg=0; 
+  int *p; 
+  scanf("%d",&n); 
+  int rod[n+1]; // index zero is ant 1 on postion 1 
+  if(n==1) 
+  { 
+  	printf("1");   
+  } 
+  else 
+  { 
+  	for(int i=0;i<=n;i++) 
+  	{ 
+   	scanf("%d ",&rod[i]);  
+  	} 
+   
+  	for(int i=0;i<n;i++) 
+  	{ 
+   		if (rod[i]==1) 
+    	count++; 
+ 	} 
+ 	  
+    if(count==n) 
+  	{ 
+  		printf("1");  
+        goto A; 
+  	} 
+ 	  
+    for(int i=0;i<n;i++) 
+  	{ 
+   		if (rod[i]== -1) 
+    	countneg++; 
+  	} 
+  	if(countneg==n) 
+  	{ 
+  		printf("%d",countneg);  
+  	} 
+ 
+    align(rod,n); 
+     
+    for(int i=0;i<n;i++) 
+    {  
+      	if(rod[i]==1 ) 
+        { 
+          printf("%d",i); 
+          break; 
+        } 
+       
+      
+    } 
+     
+  } 
+  
+  A: return 0; 
+  return 0; 
+}
+
+// MAT PROBLEM
+
+#include<stdio.h>
+
+#include<stdlib.h>
+
+int minimum(int matrix[11][11], int tx, int ty, int bx, int by) {
+  int min = 32760; // a large positive number      
+    int i , j ; 
+  for (i = tx; i <= bx; i++)
+    for (j = ty; j <= by; j++)
+      if (matrix[i][j] < min)
+        min = matrix[i][j];
+
+  return min;
+}
+void scan_matrix(int matrix[11][11], int rows, int columns) //Scanning the 2D matrix  
+{
+  int i, j;
+  for (i = 0; i < rows; i++) {
+    for (j = 0; j < columns; j++) {
+      scanf("%d", & matrix[i][j]);
+    }
+  }
+}
+
+int main(void) {
+  int rows, columns;
+  int matrix[11][11]; //Define two-dimensional matrix 
+
+  scanf("%d", & rows);
+  scanf("%d", & columns);
+  scan_matrix(matrix, rows, columns); //Function call to scan the matrix 
+
+  int quad1 = minimum(matrix, 0, 0, rows / 2 - 1, columns / 2 - 1);
+  int quad2 = minimum(matrix, 0, columns / 2, rows / 2 - 1, columns - 1);
+  int quad3 = minimum(matrix, rows / 2, 0, rows - 1, columns / 2 - 1);
+  int quad4 = minimum(matrix, rows / 2, columns / 2, rows - 1, columns - 1);
+
+  int min = 32767; //Largest possible int value 
+    int min_quad_no = 0; //Some initially set value 
+
+  if (quad1 < min) {
+    min = quad1;
+    min_quad_no = 1;
+  }
+  if (quad2 < min) {
+    min = quad2;
+    min_quad_no = 2;
+  }
+  if (quad3 < min) {
+    min = quad3;
+    min_quad_no = 3;
+  }
+  if (quad4 < min) {
+    min = quad4;
+    min_quad_no = 4;
+  }
+
+  printf("%d\n", min_quad_no); //Printing the Quadrant Number with the minimum property result 
+
+  return 0;
+}
+
+// Influence On social media
+
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <stdlib.h>
+int factors(int n)
+{
+    int cnt = 0;
+    for (int i = 1; i <= sqrt(n); i++) 
+    {
+        if (n % i == 0) 
+        {
+            if (n / i == i)
+                cnt++;
+            else
+                cnt = cnt + 2;
+        }
+    }
+    return cnt;
+}
+
+int IsPrime(int number)
+{
+    if (number < 2) return 0;
+    if (number % 2 == 0) return (number == 2);
+    int root = (int)sqrt((double)number);
+    for (int i = 3; i <= root; i += 2)
+    {
+        if (number % i == 0) return 0;
+    }
+    return 1;
+}
+int main() {
+    int n,ans1=0;
+    scanf("%d",&n);
+    int a[n];
+    for(int i=0;i<n;i++)
+    {
+        scanf("%d",&a[i]);
+    }
+    for(int i=0;i<n;i++)
+    {
+        int x=factors(a[i]);
+        if(x%2!=0 && IsPrime(x))
+            ans1=a[i];
+    }
+    if (ans1==0)
+        printf("No supporter found");
+    else{
+        int cnt=1;
+        for(int i=0;i<n;i++)
+        {
+            if(a[i]>ans1)
+                cnt++;
+        }
+        printf("%d",cnt);
+    }
+    printf("\n");
+    
+    return 0;
+}
+
+// Collatz Func
+
+ #include<stdio.h>
+
+ int main() {
+   int n, y = 0, count = 0;
+   scanf("%d", & n);
+   if (n == 1) {
+     printf("0");
+   } else {
+     while (y != 1) {
+       if (n % 2 == 0) {
+         y = n / 2;
+         n = y;
+       } else {
+         y = 3 * n + 1;
+         n = y;
+       }
+       count++;
+     }
+     printf("%d", count);
+   }
+   return 0;
+ }
+
+// Rearrange the baskets
+
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <stdlib.h>
+#include<stdbool.h>
+
+void swap(int* xp, int* yp)
+{
+    int temp = *xp;
+    *xp = *yp;
+    *yp = temp;
+}
+ 
+
+void selectionSort(int arr[], int n)
+{
+    int i, j, min_idx;
+    for (i = 0; i < n - 1; i++) {
+        min_idx = i;
+        for (j = i + 1; j < n; j++)
+            if (arr[j] < arr[min_idx])
+                min_idx = j;
+        swap(&arr[min_idx], &arr[i]);
+    }
+}
+ 
+
+bool ispossible(int arr[], int n){
+    selectionSort(arr, n);
+    int i, ob = 1;
+    for(i = 0; i < n - 1; i++){
+        if(arr[i + 1] - arr[i] <= 0){
+            ob--;
+        }
+    }
+    
+    if(ob <= 0){
+        return(false);
+    }else{
+        return(true);
+    }
+}
+
+int main() {
+
+    /* Enter your code here. Read input from STDIN. Print output to STDOUT */ 
+    int n;
+    scanf("%i", &n);
+    int i;
+    int arr[n];
+    for(i = 0; i < n; i++){
+        scanf("%i", &arr[i]);
+    }
+    bool res;
+    res = ispossible(arr, n);
+    if(res){
+        printf("YES \n");
+    }else{
+        printf("NO\n");
+    }
+    return 0;
+}
